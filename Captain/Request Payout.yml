@@ -1,0 +1,57 @@
+info:
+  name: Request Payout
+  type: http
+  seq: 2
+  tags:
+    - Captain
+
+http:
+  method: POST
+  url: "{{baseUrl}}/api/v1/captain/payout/request"
+  body:
+    type: json
+    data: |-
+      {
+        "amount": 500
+      }
+  auth:
+    type: bearer
+    token: "{{token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: 200 Response
+    description: Payout request submitted successfully
+    request:
+      url: "{{baseUrl}}/api/v1/captain/payout/request"
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+            "amount": 500
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "success": true,
+            "data": {
+              "payout_id": "a809f0fd-767d-41a4-b91c-7cb0dcd7e6cc",
+              "status": "pending",
+              "amount": 500
+            }
+          }
+
+docs: Requests a payout from the captain's available balance.

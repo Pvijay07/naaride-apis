@@ -1,0 +1,72 @@
+info:
+  name: Razorpay Webhook Endpoint
+  type: http
+  seq: 1
+  tags:
+    - Webhooks
+
+http:
+  method: POST
+  url: "{{baseUrl}}/api/v1/webhooks/razorpay"
+  headers:
+    - name: x-razorpay-signature
+      value: ""
+      description: Signature provided by Razorpay to verify payload integrity.
+  body:
+    type: json
+    data: |-
+      {
+        "event": "order.paid",
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_N3gO8n8sAdf82",
+              "amount": 15000,
+              "currency": "INR",
+              "status": "captured"
+            }
+          }
+        }
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: 200 Response
+    description: Webhook event parsed and processed successfully
+    request:
+      url: "{{baseUrl}}/api/v1/webhooks/razorpay"
+      method: POST
+      headers:
+        - name: x-razorpay-signature
+          value: ""
+          description: Signature provided by Razorpay to verify payload integrity.
+      body:
+        type: json
+        data: |-
+          {
+            "event": "order.paid",
+            "payload": {
+              "payment": {
+                "entity": {
+                  "id": "pay_N3gO8n8sAdf82",
+                  "amount": 15000,
+                  "currency": "INR",
+                  "status": "captured"
+                }
+              }
+            }
+          }
+    response:
+      status: 200
+      statusText: OK
+      body:
+        type: text
+        data: ""
+
+docs: Consumes Razorpay payment events. Authenticates payloads with 'x-razorpay-signature' verification.

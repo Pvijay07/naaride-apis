@@ -1,0 +1,76 @@
+info:
+  name: Estimate Ride Fare
+  type: http
+  seq: 1
+  tags:
+    - Rides
+
+http:
+  method: POST
+  url: "{{baseUrl}}/api/v1/rides/estimate"
+  body:
+    type: json
+    data: |-
+      {
+        "city": "Bengaluru",
+        "vehicle_type": "bike",
+        "pickup": {
+          "lat": 12.9716,
+          "lng": 77.5946
+        },
+        "drop": {
+          "lat": 12.9716,
+          "lng": 77.5946
+        }
+      }
+  auth:
+    type: bearer
+    token: "{{token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: 200 Response
+    description: Estimate calculated successfully
+    request:
+      url: "{{baseUrl}}/api/v1/rides/estimate"
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+            "city": "Bengaluru",
+            "vehicle_type": "bike",
+            "pickup": {
+              "lat": 12.9716,
+              "lng": 77.5946
+            },
+            "drop": {
+              "lat": 12.9716,
+              "lng": 77.5946
+            }
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "success": true,
+            "data": {
+              "distance_km": 5.85,
+              "duration_min": 14,
+              "estimated_fare": 125.5,
+              "surge_multiplier": 1.2
+            }
+          }
+
+docs: Calculates distance, duration, and estimated fare between pickup and drop-off coordinates, including surge multiplier calculations.

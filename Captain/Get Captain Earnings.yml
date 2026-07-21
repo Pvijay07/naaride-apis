@@ -1,0 +1,45 @@
+info:
+  name: Get Captain Earnings
+  type: http
+  seq: 1
+  tags:
+    - Captain
+
+http:
+  method: GET
+  url: "{{baseUrl}}/api/v1/captain/earnings"
+  auth:
+    type: bearer
+    token: "{{token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: 200 Response
+    description: Earnings retrieved successfully
+    request:
+      url: "{{baseUrl}}/api/v1/captain/earnings"
+      method: GET
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "success": true,
+            "data": {
+              "total_earnings": 4500.5,
+              "pending_payouts": 1200,
+              "completed_rides_count": 24
+            }
+          }
+
+docs: Returns the total earnings, pending payouts, and recent earnings statistics of the logged-in captain.

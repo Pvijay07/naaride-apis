@@ -1,0 +1,61 @@
+info:
+  name: Create Promo Code
+  type: http
+  seq: 4
+  tags:
+    - Admin
+
+http:
+  method: POST
+  url: "{{baseUrl}}/api/v1/admin/promo-codes"
+  body:
+    type: json
+    data: |-
+      {
+        "code": "NEWYEAR2026",
+        "discount_percentage": 15,
+        "max_discount": 75
+      }
+  auth:
+    type: bearer
+    token: "{{token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: 201 Response
+    description: Promo code created successfully
+    request:
+      url: "{{baseUrl}}/api/v1/admin/promo-codes"
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+            "code": "NEWYEAR2026",
+            "discount_percentage": 15,
+            "max_discount": 75
+          }
+    response:
+      status: 201
+      statusText: Created
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "success": true,
+            "data": {
+              "id": "",
+              "code": "NEWYEAR2026",
+              "active": true
+            }
+          }
+
+docs: Registers a new promotional coupon/discount code.

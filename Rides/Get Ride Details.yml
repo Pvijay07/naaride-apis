@@ -1,0 +1,68 @@
+info:
+  name: Get Ride Details
+  type: http
+  seq: 4
+  tags:
+    - Rides
+
+http:
+  method: GET
+  url: "{{baseUrl}}/api/v1/rides/:id"
+  params:
+    - name: id
+      value: ""
+      type: path
+      description: UUID of the ride
+  auth:
+    type: bearer
+    token: "{{token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: 200 Response
+    description: Ride details retrieved successfully
+    request:
+      url: "{{baseUrl}}/api/v1/rides/:id"
+      method: GET
+      params:
+        - name: id
+          value: ""
+          type: path
+          description: UUID of the ride
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "success": true,
+            "data": {
+              "id": "bc3d09a8-8e6d-495c-9db8-7ef86a41f6ac",
+              "rider_id": "7c34efbd-09d2-43fa-a690-bdcd98711cf2",
+              "captain_id": "df9001ba-fd8e-49b0-9ce3-1dbcd986927d",
+              "vehicle_type": "auto",
+              "pickup_lat": 12.9716,
+              "pickup_lng": 77.5946,
+              "drop_lat": 12.9816,
+              "drop_lng": 77.6046,
+              "status": "requested",
+              "estimated_fare": 145,
+              "actual_fare": null,
+              "payment_mode": "online",
+              "payment_status": "pending",
+              "otp": "392019",
+              "created_at": "2026-07-20T13:00:00Z",
+              "updated_at": "2026-07-20T13:00:05Z"
+            }
+          }
+
+docs: Retrieves details of a specific ride by its ID.

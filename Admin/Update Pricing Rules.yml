@@ -1,0 +1,76 @@
+info:
+  name: Update Pricing Rules
+  type: http
+  seq: 3
+  tags:
+    - Admin
+
+http:
+  method: PUT
+  url: "{{baseUrl}}/api/v1/admin/pricing-rules/:id"
+  params:
+    - name: id
+      value: ""
+      type: path
+      description: ID of the pricing rule
+  body:
+    type: json
+    data: |-
+      {
+        "base_fare": 40,
+        "per_km_rate": 15,
+        "per_min_rate": 2,
+        "min_fare": 50,
+        "cancellation_fee": 20
+      }
+  auth:
+    type: bearer
+    token: "{{token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: 200 Response
+    description: Pricing rule updated successfully
+    request:
+      url: "{{baseUrl}}/api/v1/admin/pricing-rules/:id"
+      method: PUT
+      params:
+        - name: id
+          value: ""
+          type: path
+          description: ID of the pricing rule
+      body:
+        type: json
+        data: |-
+          {
+            "base_fare": 40,
+            "per_km_rate": 15,
+            "per_min_rate": 2,
+            "min_fare": 50,
+            "cancellation_fee": 20
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "success": true,
+            "data": {
+              "id": "",
+              "base_fare": 45,
+              "per_km_rate": 16.5,
+              "per_min_rate": 2.5
+            }
+          }
+
+docs: Updates a specific fare pricing rule profile.

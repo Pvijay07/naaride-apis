@@ -1,0 +1,80 @@
+info:
+  name: Update Rider Profile
+  type: http
+  seq: 2
+  tags:
+    - Rider
+
+http:
+  method: PUT
+  url: "{{baseUrl}}/api/v1/rider/profile"
+  body:
+    type: json
+    data: |-
+      {
+        "name": "Jane Doe Updated",
+        "email": "jane.updated@example.com"
+      }
+  auth:
+    type: bearer
+    token: "{{token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: 200 Response
+    description: Profile updated successfully
+    request:
+      url: "{{baseUrl}}/api/v1/rider/profile"
+      method: PUT
+      body:
+        type: json
+        data: |-
+          {
+            "name": "Jane Doe Updated",
+            "email": "jane.updated@example.com"
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "success": true,
+            "data": {
+              "id": "7c34efbd-09d2-43fa-a690-bdcd98711cf2",
+              "phone": "+919876543210",
+              "name": "Jane Doe",
+              "email": "jane.doe@example.com",
+              "created_at": "2026-07-20T12:00:00Z",
+              "updated_at": "2026-07-20T12:30:00Z"
+            }
+          }
+  - name: 401 Response
+    description: Unauthorized
+    request:
+      url: "{{baseUrl}}/api/v1/rider/profile"
+      method: PUT
+      body:
+        type: json
+        data: |-
+          {
+            "name": "Jane Doe Updated",
+            "email": "jane.updated@example.com"
+          }
+    response:
+      status: 401
+      statusText: Unauthorized
+      body:
+        type: text
+        data: ""
+
+docs: Updates editable profile fields for the logged-in rider.
